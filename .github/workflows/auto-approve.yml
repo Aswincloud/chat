@@ -7,7 +7,8 @@ on:
     types: [opened, reopened, ready_for_review, synchronize]
 
 # This caller job needs no token of its own — the reusable workflow mints its
-# own App token and uses the org PAT. Pin to none for least privilege.
+# own App token and uses the org PAT. Pin the reusable workflow to an immutable
+# commit so a branch update cannot change the privileged workflow unexpectedly.
 permissions: {}
 
 concurrency:
@@ -16,7 +17,7 @@ concurrency:
 
 jobs:
   approve:
-    uses: Aswincloud/.github/.github/workflows/auto-approve.yml@main
+    uses: Aswincloud/.github/.github/workflows/auto-approve.yml@cabd465d0f11fb8e79d22ac6a08332f946717209
     # Pass ONLY the three secrets the reusable workflow declares — not
     # `secrets: inherit`, which would forward every org secret (Cloudflare,
     # Resend, PATs, ...) into a workflow that has no business seeing them.
